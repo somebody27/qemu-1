@@ -162,10 +162,10 @@ qio_channel_socket_source_dispatch(GSource *source,
                                    GSourceFunc callback,
                                    gpointer user_data)
 {
-    QIOChannelFunc func = (QIOChannelFunc)callback;
+    QIOChannelFunc func = (QIOChannelFunc)callback;//这里callback前面也使用了(QIOChannelFunc)进行类型转换
     QIOChannelSocketSource *ssource = (QIOChannelSocketSource *)source;
 
-    return (*func)(ssource->ioc, ssource->revents, user_data);
+    return (*func)(ssource->ioc, ssource->revents, user_data);//注意这里的(*func)，为什么要使用(*func)？？事实上，func直接调用也可以，即func(参数..)
 }
 
 

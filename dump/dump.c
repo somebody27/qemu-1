@@ -55,9 +55,9 @@ static Error *dump_migration_blocker;
       DIV_ROUND_UP((name_size), 4) +                    \
       DIV_ROUND_UP((desc_size), 4)) * 4)
 
-uint16_t cpu_to_dump16(DumpState *s, uint16_t val)
+uint16_t cpu_to_dump16(DumpState *s, uint16_t val)//DumpState 是一个结构体，通过指针这种方式传递结构体的地址，不需要对数据进行整体复制，提高执行效率
 {
-    if (s->dump_info.d_endian == ELFDATA2LSB) {
+    if (s->dump_info.d_endian == ELFDATA2LSB) {//这里s->dump_info.d_endian，dump_info是结构体内部的结构体，对其进行点操作
         val = cpu_to_le16(val);
     } else {
         val = cpu_to_be16(val);
@@ -109,7 +109,8 @@ static int dump_cleanup(DumpState *s)
     return 0;
 }
 
-static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
+static int fd_write_vmcore(const void *buf, size_t size, void *opaque) //也就是这个函数声明必须和函数指针的声明一致，注意这里的const void *buf，为什么使用const void*..；
+                                                                       //首先保证对传入的参数不做修改，然后void *是说传递参数类型可以不固定
 {
     DumpState *s = opaque;
     size_t written_size;
@@ -273,7 +274,7 @@ static void write_guest_note(WriteCoreDumpFunction f, DumpState *s,
 }
 
 static void write_elf64_notes(WriteCoreDumpFunction f, DumpState *s,
-                              Error **errp)
+                              Error **errp) //注意WriteCoreDumpFunction的声明
 {
     CPUState *cpu;
     int ret;
@@ -576,7 +577,7 @@ static void dump_begin(DumpState *s, Error **errp)
         }
 
         /* write notes to vmcore */
-        write_elf64_notes(fd_write_vmcore, s, &local_err);
+        write_elf64_notes(fd_write_vmcore, s, &local_err); //fd_write_vmcore,注意其声明
         if (local_err) {
             error_propagate(errp, local_err);
             return;

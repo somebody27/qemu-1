@@ -34,7 +34,7 @@
 #include "qom/object.h"
 
 typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
-                                     void *opaque);
+                                     void *opaque);//这个声明有点意思了
 
 /**
  * SECTION:cpu

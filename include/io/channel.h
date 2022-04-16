@@ -39,7 +39,7 @@ enum QIOChannelFeature {
     QIO_CHANNEL_FEATURE_SHUTDOWN,
     QIO_CHANNEL_FEATURE_LISTEN,
 };
-
+//
 
 typedef enum QIOChannelShutdown QIOChannelShutdown;
 
@@ -49,7 +49,7 @@ enum QIOChannelShutdown {
     QIO_CHANNEL_SHUTDOWN_BOTH = 3,
 };
 
-typedef gboolean (*QIOChannelFunc)(QIOChannel *ioc,
+typedef gboolean (*QIOChannelFunc)(QIOChannel *ioc,     //函数指针
                                    GIOCondition condition,
                                    gpointer data);
 
